@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards and Points</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .reward-item {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="HOMEPAGE.html"><img src="/images/logotravel.png" alt="Travel Concierge Logo" width="50"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="DIGITAL WALLET BALANCE PAGE.html">Wallet</a></li>
+        <li class="nav-item"><a class="nav-link" href="EXPENSE TRACKING PAGE.html">Expenses</a></li>
+        <li class="nav-item"><a class="nav-link" href="CURRENCY CONVERSION PAGE.html">Currency Conversion</a></li>
+        <li class="nav-item"><a class="nav-link" href="INTERNATIONAL TRANSACTIONS PAGE.html">International Transfer</a></li>
+        <li class="nav-item"><a class="nav-link" href="rewards.html">Rewards and Earn Points</a></li>
+        <li class="nav-item"><a class="nav-link" href="ABOUT US PAGE.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="CONTACT US.html">Contact Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="logout.html">Logout</a></li>
+        </ul>
+        </div>
+    </nav>
+
+    <!-- Rewards Tracker -->
+    <div class="container mt-5">
+    <div class="jumbotron">
+        <h2>Your Points: <span id="points">0</span></h2>
+        <p>Keep track of your points and redeem rewards!</p>
+    </div>
+
+    <!-- Rewards Information -->
+    <div class="container">
+        <h3>Available Rewards</h3>
+        <div class="reward-item">
+            <h4>Free Coffee Voucher from Luckin Coffee</h4>
+            <img src="/images/luckincoffee.jpg" alt="Luckin Coffee">
+            <p>Redeem with 100 points</p>
+            <button class="btn btn-primary redeem-btn" data-points="100">Redeem</button>
+            <div id="qr-luckincoffee" class="qr-code"></div>
+        </div>
+        <div class="reward-item">
+            <h4>20% Discount Voucher from Grab</h4>
+            <img src="/images/grab.png" alt="Grab">
+            <p>Redeem with 500 points</p>
+            <button class="btn btn-primary redeem-btn" data-points="500">Redeem</button>
+            <div id="qr-grab" class="qr-code"></div>
+        </div>
+        <div class="reward-item">
+            <h4>$20 Discount Voucher from Sephora</h4>
+            <img src="/images/sephora.jpg" alt="sephora" style="width:300px">
+            <p>Redeem with 800 points</p>
+            <button class="btn btn-primary redeem-btn" data-points="500">Redeem</button>
+            <!-- QR Code placeholder -->
+            <div id="qr-sephora" class="qr-code"></div>
+        </div>
+        <div class="reward-item">
+            <h4>$50 CapitalLand Voucher</h4>
+            <img src="/images/capitaland.png" alt="capitaland" style="width:300px">
+            <p>Redeem with 1,500 points</p>
+            <button class="btn btn-primary redeem-btn" data-points="500">Redeem</button>
+            <!-- QR Code placeholder -->
+            <div id="qr-capitaland" class="qr-code"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let userPoints = 500; // Placeholder for user's points
+        
+            document.getElementById('points').textContent = userPoints;
+        
+            document.querySelectorAll('.redeem-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const pointsNeeded = parseInt(this.getAttribute('data-points'), 10);
+                    if (userPoints >= pointsNeeded) {
+                        userPoints -= pointsNeeded;
+                        document.getElementById('points').textContent = userPoints;
+                        this.textContent = 'Redeemed'; // Update button text to "Redeemed"
+                        this.disabled = true; // Optionally disable the button
+                        
+                        // Generate QR Code
+                        const rewardId = this.nextElementSibling.id; // Assuming the QR placeholder directly follows the button
+                        const qrText = "Your Reward Code or URL"; // The text you want to encode
+                        new QRCode(document.getElementById(rewardId), qrText);
+                        
+                        alert('Reward redeemed!');
+                    } else {
+                        // Show popup for insufficient points
+                        alert('Insufficient points for redemption!');
+                    }
+ 
+function handleTransaction(transactionAmount) {
+
+    if (transactionAmount > 50) {
+
+        let pointsEarned = calculatePoints(transactionAmount);
+
+        updateUserPoints(pointsEarned);
+
+    }
+
+}
+ 
+function calculatePoints(transactionAmount) {
+
+    // Assuming 5 points for every transaction above $50
+
+    return 5;
+
+}
+ 
+function updateUserPoints(pointsEarned) {
+
+    // Fetch current points from the user's wallet
+
+    let currentPoints = fetchUserPoints();
+
+    // Update points
+
+    let updatedPoints = currentPoints + pointsEarned;
+
+    // Save updated points back to the wallet
+
+    saveUserPoints(updatedPoints);
+
+    // Optionally, update the front-end to reflect the new points total
+
+    updateFrontEndPoints(updatedPoints);
+
+}
+ 
+function fetchUserPoints() {
+
+    // Fetch current points from the database or application state
+
+    // Placeholder return value
+
+    return 0;
+
+}
+ 
+function saveUserPoints(updatedPoints) {
+
+    // Save the updated points to the database or application state
+
+}
+ 
+function updateFrontEndPoints(updatedPoints) {
+
+    // Update the DOM with the new points total
+
+    document.getElementById('points').textContent = updatedPoints;
+
+}
+ 
+                    
+                });
+            });
+        });
+    </script>
+</body>
+</html>

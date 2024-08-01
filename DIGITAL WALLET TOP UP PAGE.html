@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Up Balance</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Baloo 2', cursive;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            display: flex;
+            background-color: #333;
+            overflow: hidden;
+        }
+        .navbar a {
+            flex: 1;
+            padding: 14px 20px;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #333;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-row .form-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .form-row .form-group:last-child {
+            margin-right: 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF; /* Blue color for button */
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        p {
+            margin-top: 20px;
+            color: #555;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="HOMEPAGE.html"><img src="/images/logotravel.png" alt="Travel Concierge Logo" width="50"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="DIGITAL WALLET BALANCE PAGE.html">Wallet</a></li>
+        <li class="nav-item"><a class="nav-link" href="EXPENSE TRACKING PAGE.html">Expenses</a></li>
+        <li class="nav-item"><a class="nav-link" href="CURRENCY CONVERSION PAGE.html">Currency Conversion</a></li>
+        <li class="nav-item"><a class="nav-link" href="INTERNATIONAL TRANSACTIONS PAGE.html">International Transfer</a></li>
+        <li class="nav-item"><a class="nav-link" href="rewards.html">Rewards and Earn Points</a></li>
+        <li class="nav-item"><a class="nav-link" href="ABOUT US PAGE.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="CONTACT US.html">Contact Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="logout.html">Logout</a></li>
+        </ul>
+        </div>
+        </nav>
+    <div class="container mt-5">
+        <div class="jumbotron">
+            <h2 class="display-4">Top Up Balance</h2>
+            <form id="top-up-form">
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" id="amount" name="amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="card-number">Credit Card Number</label>
+                    <input type="text" id="card-number" name="card-number" required maxlength="16" pattern="\d{16}" title="Please enter a valid 16-digit credit card number">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" required maxlength="3" pattern="\d{3}" title="Please enter a valid 3-digit CVV">
+                    </div>
+                    <div class="form-group">
+                        <label for="expiry-date">Expiry Date</label>
+                        <input type="text" id="expiry-date" name="expiry-date" required pattern="(0[1-9]|1[0-2])\/\d{2}" title="Please enter a valid expiry date in MM/YY format">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Top Up</button>
+            </form>
+            <p id="success-message" style="display:none;">Top up successful! New balance: <span id="new-balance"></span></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('top-up-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            handleTopUp();
+        });
+
+        function handleTopUp() {
+            const otp = prompt("Enter One Time Password sent to your Email:");
+            if (!otp || otp.length !== 6 || !/^\d{6}$/.test(otp)) {
+                alert("Invalid OTP. Please enter a valid 6-digit OTP.");
+                return;
+            }
+
+            const amount = parseFloat(document.getElementById('amount').value);
+            const balance = parseFloat(localStorage.getItem('balance') || '0');
+            const newBalance = balance + amount;
+            localStorage.setItem('balance', newBalance.toFixed(2));
+
+            document.getElementById('new-balance').innerText = `$${newBalance.toFixed(2)}`;
+            document.getElementById('success-message').style.display = 'block';
+
+            // Update transactions in local storage
+            const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            transactions.push({ date: new Date().toISOString().split('T')[0], description: 'Top Up', amount: amount });
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+
+            setTimeout(() => {
+                window.location.href = 'DIGITAL WALLET BALANCE PAGE.html';
+            }, 2000);
+        }
+
+        // Prevent non-numeric input for credit card and CVV fields
+        document.getElementById('card-number').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').substring(0, 16);
+        });
+
+        document.getElementById('cvv').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').substring(0, 3);
+        });
+
+        // Validate expiry date format
+        document.getElementById('expiry-date').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9\/]/g, '').replace(/(\d{2})(\d{2})/, '$1/$2').substring(0, 5);
+        });
+    </script>
+</body>
+</html>
+

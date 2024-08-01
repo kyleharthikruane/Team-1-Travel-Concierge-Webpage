@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracking</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Baloo 2', cursive;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            display: flex;
+            background-color: #f8f9fa;
+            overflow: hidden;
+            padding: 10px;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar a {
+            color: #000;
+            text-decoration: none;
+            padding: 8px 16px;
+        }
+        .navbar a:hover {
+            background-color: #e2e6ea;
+            border-radius: 4px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #66023C;
+        }
+        .balance-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #0064e0;
+            color: white;
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+        .balance-card .icon {
+            font-size: 50px;
+        }
+        .balance-card .balance-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 20px;
+        }
+        .balance-card .balance-info .amount {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .balance-card .balance-info .description {
+            color: #a0a0a0;
+        }
+        .balance-card .more {
+            display: flex;
+            align-items: center;
+            color: #a0a0a0;
+        }
+        .balance-card .more:hover {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .balance-card .more .arrow {
+            margin-left: 5px;
+        }
+        .expense-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .form-control, .btn {
+            margin-bottom: 15px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            margin-top: 50px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #66023C;
+        }
+        th {
+            background-color: #66023C;
+            color: white;
+        }
+        .green-text {
+            color: green;
+        }
+        .red-text {
+            color: black;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="HOMEPAGE.html"><img src="/images/logotravel.png" alt="Travel Concierge Logo" width="50"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="DIGITAL WALLET BALANCE PAGE.html">Wallet</a></li>
+        <li class="nav-item"><a class="nav-link" href="EXPENSE TRACKING PAGE.html">Expenses</a></li>
+        <li class="nav-item"><a class="nav-link" href="CURRENCY CONVERSION PAGE.html">Currency Conversion</a></li>
+        <li class="nav-item"><a class="nav-link" href="INTERNATIONAL TRANSACTIONS PAGE.html">International Transfer</a></li>
+        <li class="nav-item"><a class="nav-link" href="rewards.html">Rewards and Earn Points</a></li>
+        <li class="nav-item"><a class="nav-link" href="ABOUT US PAGE.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="CONTACT US.html">Contact Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="logout.html">Logout</a></li>
+        </ul>
+        </div>
+        </nav>
+
+    <div class="balance-card">
+        <div class="icon">&#36;</div>
+        <div class="balance-info">
+            <div class="description">Balance</div>
+            <div class="description">Linked to MasterCard 2830</div>
+            <div class="amount" id="balance-amount">$500</div>
+            <div class="description" id="balance-change" style="color: #00FF00;">+100 From last month</div>
+        </div>
+        <a href="#" class="more">
+            More
+            <span class="arrow">&#8594;</span>
+        </a>
+    </div>
+
+    <div class="expense-container">
+        <h2>Expense Tracking</h2>
+        <form id="expense-form">
+            <div class="form-group">
+                <label for="expense-date">Date</label>
+                <input type="date" class="form-control" id="expense-date" required>
+            </div>
+            <div class="form-group">
+                <label for="expense-time">Time</label>
+                <input type="time" class="form-control" id="expense-time" required>
+            </div>
+            <div class="form-group">
+                <label for="expense-category">Category</label>
+                <select class="form-control" id="expense-category" required>
+                    <option>Food</option>
+                    <option>Travel</option>
+                    <option>Accommodation</option>
+                    <option>Entertainment</option>
+                    <option>Miscellaneous</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="expense-amount">Amount</label>
+                <input type="number" class="form-control" id="expense-amount" placeholder="Enter amount" required>
+            </div>
+            <div class="form-group">
+                <label for="expense-description">Description</label>
+                <textarea class="form-control" id="expense-description" rows="3" placeholder="Enter description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="expense-account">Account Name/Number</label>
+                <input type="text" class="form-control" id="expense-account" placeholder="Enter account name/number" required>
+            </div>
+            <div class="form-group">
+                <label for="expense-location">Location</label>
+                <input type="text" class="form-control" id="expense-location" placeholder="Enter location" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Expense</button>
+        </form>
+
+        <h3 class="mt-5">Expense List</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody id="expense-list">
+            </tbody>
+        </table>
+    </div>
+
+    <div id="expenseModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h4>Expense Details</h4>
+            <p><strong>Date:</strong> <span id="modal-date"></span></p>
+            <p><strong>Time:</strong> <span id="modal-time"></span></p>
+            <p><strong>Category:</strong> <span id="modal-category"></span></p>
+            <p><strong>Amount:</strong> <span id="modal-amount"></span></p>
+            <p><strong>Description:</strong> <span id="modal-description"></span></p>
+            <p><strong>Account Name/Number:</strong> <span id="modal-account"></span></p>
+            <p><strong>Location:</strong> <span id="modal-location"></span></p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let balance = 500;
+
+        document.getElementById('expense-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const date = document.getElementById('expense-date').value;
+            const time = document.getElementById('expense-time').value;
+            const category = document.getElementById('expense-category').value;
+            const amount = parseFloat(document.getElementById('expense-amount').value);
+            const description = document.getElementById('expense-description').value;
+            const account = document.getElementById('expense-account').value;
+            const location = document.getElementById('expense-location').value;
+
+            const expenseItem = document.createElement('tr');
+            expenseItem.innerHTML = `
+                <td>${date}</td>
+                <td>${category}</td>
+                <td>${amount}</td>
+                <td>${description}</td>
+            `;
+
+            expenseItem.addEventListener('click', function() {
+                document.getElementById('modal-date').innerText = date;
+                document.getElementById('modal-time').innerText = time;
+                document.getElementById('modal-category').innerText = category;
+                document.getElementById('modal-amount').innerText = amount;
+                document.getElementById('modal-description').innerText = description;
+                document.getElementById('modal-account').innerText = account;
+                document.getElementById('modal-location').innerText = location;
+                document.getElementById('expenseModal').style.display = 'block';
+            });
+
+            document.getElementById('expense-list').appendChild(expenseItem);
+
+            updateBalance(amount);
+        });
+
+        function updateBalance(amount) {
+            balance -= -amount;
+            document.getElementById('balance-amount').innerText = `$${balance.toLocaleString()}`;
+
+            const balanceChange = 300 - (500 - balance);
+            document.getElementById('balance-change').innerText = `${balanceChange >= 0 ? '+' : ''}${balanceChange.toLocaleString()} From last month`;
+            document.getElementById('balance-change').style.color = balanceChange >= 0 ? '#00FF00' : '#FF0000';
+        }
+
+        document.getElementsByClassName('close')[0].onclick = function() {
+            document.getElementById('expenseModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('expenseModal')) {
+                document.getElementById('expenseModal').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

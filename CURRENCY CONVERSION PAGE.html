@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Baloo 2', cursive;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .converter-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .navbar {
+            display: flex;
+            background-color: #f8f9fa;
+            overflow: hidden;
+            padding: 10px;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar a {
+            color: #000;
+            text-decoration: none;
+            padding: 8px 16px;
+        }
+        .navbar a:hover {
+            background-color: #e2e6ea;
+            border-radius: 4px;
+        }
+        .navbar img {
+            height: 50px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="HOMEPAGE.html"><img src="/images/logotravel.png" alt="Travel Concierge Logo" width="50"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="DIGITAL WALLET BALANCE PAGE.html">Wallet</a></li>
+        <li class="nav-item"><a class="nav-link" href="EXPENSE TRACKING PAGE.html">Expenses</a></li>
+        <li class="nav-item"><a class="nav-link" href="CURRENCY CONVERSION PAGE.html">Currency Conversion</a></li>
+        <li class="nav-item"><a class="nav-link" href="INTERNATIONAL TRANSACTIONS PAGE.html">International Transfer</a></li>
+        <li class="nav-item"><a class="nav-link" href="rewards.html">Rewards and Earn Points</a></li>
+        <li class="nav-item"><a class="nav-link" href="ABOUT US PAGE.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="CONTACT US.html">Contact Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="logout.html">Logout</a></li>
+        </ul>
+        </div>
+        </nav>
+
+    <div class="container converter-container">
+        <h2 class="text-center">Currency Converter</h2>
+        <form id="currencyForm">
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" class="form-control" id="amount" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="fromCurrency">From:</label>
+            <select class="form-control" id="fromCurrency">
+                <option value="SGD">SGD</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="CNY">CNY</option>
+                <option value="AUD">AUD</option>
+                <option value="CAD">CAD</option>
+                <option value="NZD">NZD</option>
+                <option value="THB">THB</option>
+                <option value="JPY">JPY</option>
+                <option value="HKD">HKD</option>
+            </select>
+            <div class="form-group">
+                <label for="toCurrency">To:</label>
+                <select class="form-control" id="toCurrency">
+                    <option value="SGD">SGD</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="CNY">CNY</option>
+                    <option value="AUD">AUD</option>
+                    <option value="CAD">CAD</option>
+                    <option value="NZD">NZD</option>
+                    <option value="THB">THB</option>
+                    <option value="JPY">JPY</option>
+                    <option value="HKD">HKD</option>
+                </select>
+            </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Convert</button>
+        </form>
+        <div class="result mt-4 text-center" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('currencyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const amount = parseFloat(document.getElementById('amount').value);
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            const toCurrency = document.getElementById('toCurrency').value;
+
+            const conversionRates = {
+                USD: { EUR: 0.85, GBP: 0.75, USD: 1, SGD: 1.36, CNY: 6.47, AUD: 1.37, CAD: 1.31, NZD: 1.45, THB: 31.25, JPY: 105.40, HKD: 7.75 },
+                EUR: { USD: 1.18, GBP: 0.91, EUR: 1, SGD: 1.53, CNY: 7.73, AUD: 1.62, CAD: 1.55, NZD: 1.72, THB: 36.97, JPY: 124.63, HKD: 9.13 },
+                GBP: { USD: 1.33, EUR: 1.10, GBP: 1, SGD: 1.70, CNY: 8.59, AUD: 1.81, CAD: 1.73, NZD: 1.92, THB: 41.33, JPY: 139.33, HKD: 10.19 },
+                SGD: { USD: 0.74, EUR: 0.65, GBP: 0.59, SGD: 1, CNY: 4.78, AUD: 1.01, CAD: 0.97, NZD: 1.07, THB: 23.03, JPY: 77.52, HKD: 5.68 },
+                CNY: { USD: 0.15, EUR: 0.13, GBP: 0.11, SGD: 0.20, CNY: 1, AUD: 0.21, CAD: 0.20, NZD: 0.22, THB: 4.74, JPY: 15.96, HKD: 1.17 },
+                AUD: { USD: 0.73, EUR: 0.63, GBP: 0.55, SGD: 0.98, CNY: 4.75, AUD: 1, CAD: 0.96, NZD: 1.06, THB: 22.85, JPY: 76.97, HKD: 5.64 },
+                CAD: { USD: 0.79, EUR: 0.68, GBP: 0.59, SGD: 1.05, CNY: 4.95, AUD: 1.04, CAD: 1, NZD: 1.11, THB: 23.92, JPY: 80.63, HKD: 5.91 },
+                NZD: { USD: 0.69, EUR: 0.60, GBP: 0.52, SGD: 0.93, CNY: 4.52, AUD: 0.94, CAD: 0.90, NZD: 1, THB: 21.55, JPY: 72.68, HKD: 5.33 },
+                THB: { USD: 0.032, EUR: 0.028, GBP: 0.024, SGD: 0.043, CNY: 0.21, AUD: 0.044, CAD: 0.042, NZD: 0.046, THB: 1, JPY: 3.37, HKD: 0.25 },
+                JPY: { USD: 0.0095, EUR: 0.0082, GBP: 0.0071, SGD: 0.012, CNY: 0.063, AUD: 0.013, CAD: 0.012, NZD: 0.014, THB: 0.30, JPY: 1, HKD: 0.073 },
+                HKD: { USD: 0.13, EUR: 0.11, GBP: 0.10, SGD: 0.18, CNY: 0.86, AUD: 0.18, CAD: 0.17, NZD: 0.19, THB: 4.07, JPY: 13.70, HKD: 1 }
+            };
+
+            if (conversionRates[fromCurrency] && conversionRates[fromCurrency][toCurrency]) {
+                const convertedAmount = amount * conversionRates[fromCurrency][toCurrency];
+                document.getElementById('result').innerText = `${amount} ${fromCurrency} = ${convertedAmount.toFixed(2)} ${toCurrency}`;
+            } else {
+                document.getElementById('result').innerText = 'Conversion rate not available.';
+            }
+        });
+    </script>
+</body>
+</html>

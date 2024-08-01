@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up / Sign In</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    p {
+        margin-top: 15px;
+        color: #555;
+        text-align: center;
+    }
+
+    a {
+        color: #007BFF;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+<body>
+
+    <div class="container">
+        <h2 id="form-title">Sign Up</h2>
+        <form id="auth-form">
+            <div id="username-group" class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div id="confirm-password-group" class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p id="toggle-text">Already have an account? <a href="#" id="toggle-link">Sign In</a></p>
+    </div>
+
+    <script>
+        document.getElementById('toggle-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            toggleForm();
+        });
+
+        document.getElementById('auth-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            handleFormSubmit();
+        });
+
+        function toggleForm() {
+            const formTitle = document.getElementById('form-title');
+            const usernameGroup = document.getElementById('username-group');
+            const confirmPasswordGroup = document.getElementById('confirm-password-group');
+            const toggleText = document.getElementById('toggle-text');
+            const submitButton = document.querySelector('button');
+
+            if (formTitle.textContent === 'Sign Up') {
+                formTitle.textContent = 'Sign In';
+                usernameGroup.style.display = 'none';
+                confirmPasswordGroup.style.display = 'none';
+                toggleText.innerHTML = "Don't have an account? <a href='#' id='toggle-link'>Sign Up</a>";
+                submitButton.textContent = 'Sign In';
+            } else {
+                formTitle.textContent = 'Sign Up';
+                usernameGroup.style.display = 'block';
+                confirmPasswordGroup.style.display = 'block';
+                toggleText.innerHTML = "Already have an account? <a href='#' id='toggle-link'>Sign In</a>";
+                submitButton.textContent = 'Sign Up';
+            }
+            // Reassign the event listener to the newly created toggle link
+            document.getElementById('toggle-link').addEventListener('click', function(event) {
+                event.preventDefault();
+                toggleForm();
+            });
+        }
+
+        function handleFormSubmit() {
+            const formTitle = document.getElementById('form-title').textContent;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (formTitle === 'Sign Up') {
+                const username = document.getElementById('username').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+
+                // Store user data in localStorage
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                users.push({ username, email, password });
+                localStorage.setItem('users', JSON.stringify(users));
+                alert('Sign-up successful!');
+                // Redirect to Sign In page after sign-up
+                toggleForm();
+            } else {
+                // Retrieve user data from localStorage
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const user = users.find(user => user.email === email && user.password === password);
+                if (user) {
+                    alert('Sign-in successful!');
+                    // Redirect to HOMEPAGE.html after sign-in
+                    window.location.href = 'HOMEPAGE.html';
+                } else {
+                    alert('Invalid email or password!');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

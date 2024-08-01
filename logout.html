@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="3;url=login.html" />
+    <title>Logout</title>
+</head>
+<body>
+    <h2>You have been logged out.</h2>
+    <p>Redirecting to login page...</p>
+    <script>
+        // Example logout logic
+        function clearUserSession() {
+            // Clear session storage or cookies
+            sessionStorage.clear(); // or localStorage.clear();
+            // Redirect to login page or home page
+            window.location.href = 'SIGNUP_LOGINPAGE.html';
+        }
+        clearUserSession();
+    </script>
+</body>
+</html>
